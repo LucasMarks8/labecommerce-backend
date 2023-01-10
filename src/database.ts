@@ -24,7 +24,7 @@ export const users: TUser[] = [{
 
 export const products: TProduct[] = [{
     id: "p01",
-    name: "Tênis Nike",
+    name: "Tênis",
     price: 1250.00,
     category: CATEGORY.SHOES
 },
