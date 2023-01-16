@@ -7,19 +7,19 @@ export enum CATEGORY {
 }
 
 export const users: TUser[] = [{
-    id: "01",
+    id: "a01",
     email: "lucas@labenu.com",
-    password: "lucas1"
+    password: "Lucas1988!"
 },
 {
-    id: "02",
+    id: "a02",
     email: "andre@labenu.com",
-    password: "andre2"
+    password: "Andre1987!"
 },
 {
-    id: "03",
+    id: "a03",
     email: "juliana@labenu.com",
-    password: "juliana3"
+    password: "Juliana1989!"
 }]
 
 export const products: TProduct[] = [{
