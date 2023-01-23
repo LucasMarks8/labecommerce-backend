@@ -271,3 +271,66 @@ INNER JOIN users
 ON purchases.buyer_id = users.id
 WHERE users.id = 'a01';
 
+-- Exercício 1
+-- Agora que sabemos como criar relações m:n, é possível implementar a tabela de relações entre produtos e pedidos.
+
+-- Criação da tabela de relações
+-- nome da tabela: purchases_products
+-- colunas da tabela:
+-- purchase_id (TEXT e obrigatório, não deve ser único)
+-- product_id (TEXT e obrigatório, não deve ser único)
+-- quantity (INTEGER e obrigatório, não deve ser único)
+-- Como essa lógica funciona?
+-- Cada compra é registrada uma única vez na tabela purchases.
+-- Cada produto da mesma compra é registrado uma única vez na tabela purchases_products.
+-- Exemplo:
+
+-- uma pessoa coloca 5 laranjas (p001) e 3 bananas (p002) no carrinho e confirma sua compra
+
+-- a compra é registrada com id c001 na tabela purchases
+
+-- a seguir, cada item do carrinho é registrado na tabela purchases_products
+-- 5 laranjas são registradas na tabela purchases_products (c001, p001, 5)
+-- 3 bananas são registradas na tabela purchases_products (c001, p002, 3)
+
+DROP TABLE purchases_products;
+
+CREATE TABLE purchases_products (
+    purchase_id TEXT NOT NULL,
+    product_id TEXT NOT NULL,
+    quantity INTEGER NOT NULL,
+    created_at TEXT DEFAULT( DATETIME()) NOT NULL
+);
+
+-- Exercício 2
+-- Com a tabela de relações criada podemos finalmente realizar compras no banco de dados!
+
+-- Inserção dos dados
+-- Popule sua tabela purchases_products simulando 3 compras de clientes.
+
+-- Consulta com junção INNER JOIN
+-- Mostre em uma query todas as colunas das tabelas relacionadas (purchases_products, purchases e products).
+
+INSERT INTO purchases_products (purchase_id, product_id, quantity)
+VALUES
+    ('pu001', 'p03', 3),
+    ('pu002', 'p04', 2),
+    ('pu003', 'p05', 1);
+
+-- SELECT * FROM purchases_products
+-- INNER JOIN users
+-- ON purchases_products.purchase_id = users.id
+-- INNER JOIN purchases
+-- ON purchases_products.product_id = purchases.id
+-- INNER JOIN products
+-- ON purchases_products.quantity = products.id;
+
+SELECT * FROM purchases_products;
+
+SELECT * FROM purchases_products
+INNER JOIN purchases
+ON purchases_products.purchase_id = purchases.id
+INNER JOIN products
+ON purchases_products.product_id = products.id;
+
+
