@@ -7,17 +7,20 @@ export enum CATEGORY {
 }
 
 export const users: TUser[] = [{
-    id: "a01",
+    id: "u01",
+    name: "Lucas",
     email: "lucas@labenu.com",
     password: "Lucas1988!"
 },
 {
-    id: "a02",
+    id: "u02",
+    name: "André",
     email: "andre@labenu.com",
     password: "Andre1987!"
 },
 {
-    id: "a03",
+    id: "u03",
+    name: "Juliana",
     email: "juliana@labenu.com",
     password: "Juliana1989!"
 }]
@@ -60,9 +63,10 @@ export const purchases: TPurchase[] = [{
     totalPrice: 3 * products[2].price
 }]
 
-export const createUser = (id: string, email: string, password: string): string => {
+export const createUser = (id: string, name: string, email: string, password: string): string => {
     const user: TUser = {
         id,
+        name,
         email,
         password
     }
