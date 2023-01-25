@@ -1,5 +1,7 @@
 -- Active: 1673882407578@@127.0.0.1@3306
 
+DROP TABLE users;
+
 CREATE TABLE
     users (
         id TEXT PRIMARY KEY UNIQUE NOT NULL,
@@ -9,9 +11,36 @@ CREATE TABLE
         created_at TEXT DEFAULT (DATETIME()) NOT NULL
     );
 
-PRAGMA table_info ('users'); 
+DROP TABLE products;
 
-DROP TABLE users;
+CREATE TABLE
+    products (
+        id TEXT PRIMARY KEY UNIQUE NOT NULL,
+        name TEXT NOT NULL,
+        price REAL NOT NULL,
+        description TEXT NOT NULL,
+        imageUrl TEXT NOT NULL
+    );
+
+DROP TABLE purchases;
+
+CREATE Table purchases (
+    id TEXT PRIMARY KEY UNIQUE NOT NULL,
+    total_price REAL NOT NULL,
+    paid INTEGER DEFAULT (0) NOT NULL,
+    created_at TEXT DEFAULT (DATETIME()) NOT NULL,
+    buyer_id TEXT NOT NULL,
+    FOREIGN KEY (buyer_id) REFERENCES users(id)
+);
+
+DROP TABLE purchases_products;
+
+CREATE TABLE purchases_products (
+    purchase_id TEXT NOT NULL,
+    product_id TEXT NOT NULL,
+    quantity INTEGER NOT NULL,
+    created_at TEXT DEFAULT( DATETIME()) NOT NULL
+);
 
 INSERT INTO
     users (id, name, email, password)
@@ -34,174 +63,56 @@ VALUES (
 
 SELECT * FROM users;
 
-CREATE TABLE
-    products (
-        id TEXT PRIMARY KEY UNIQUE NOT NULL,
-        name TEXT NOT NULL,
-        price REAL NOT NULL,
-        category TEXT NOT NULL
-    );
-
-PRAGMA table_info ('products');
-
-DROP TABLE products;
-
 INSERT INTO
-    products (id, name, price, category)
+    products (id, name, price, description, imageUrl)
 VALUES (
         'p001',
         'Camiseta Nike',
         120,
-        'Roupas'
+        'Camiseta básica nike',
+        'url'
     ), (
         'p002',
         'Camiseta Adidas',
         110,
-        'Roupas'
+        'Camiseta básica adidas',
+        'url'
     ), (
         'p003',
         'Ipad',
         5500,
-        'Eletrônicos'
+        'Ipad Pro 9ª geração',
+        'url'
     ), (
         'p004',
         'Apple Watch',
         5000,
-        'Eletrônicos'
+        'Apple Watch 6ª geração',
+        'url'
     ), (
         'p005',
         'Tênis Nike',
         800,
-        'Calçados'
+        'Tênis Nike Air Max',
+        'url'
     );
 
 SELECT * FROM products;
 
-SELECT * FROM products WHERE name = 'Ipad';
-
-INSERT into
-    users (id, name, email, password)
-VALUES (
-        'u04',
-        'Bob',
-        'bobynho@email.com',
-        'Bobynho2019!'
-    );
-
-SELECT * FROM users;
-
-INSERT into
-    products (id, name, price, category)
-VALUES (
-        'p006',
-        'TV Smart 70 polegadas',
-        7500,
-        'Eletrõnicos'
-    );
-
-SELECT * FROM products;
-
-SELECT * FROM products WHERE id = 'p003';
-
-DELETE FROM users WHERE id = 'u04';
-
-SELECT * FROM users;
-
-INSERT into
-    users (id, name, email, password)
-VALUES (
-        'u04',
-        'Bob',
-        'bobynho@email.com',
-        'Bobynho2019!'
-    );
-
-SELECT * FROM users;
-
-
-DELETE FROM products WHERE id = 'p006';
-
-SELECT * FROM products;
-
-INSERT into
-    products (id, name, price, category)
-VALUES (
-        'p006',
-        'TV Smart 70 polegadas',
-        7500,
-        'Eletrõnicos'
-    );
-
-SELECT * FROM products;
-
-UPDATE users
-SET
-    email = 'lucaseditado@labenu.com',
-    password = 'Lucaseditado1988!'
-WHERE id = 'u01';
-
-UPDATE products
-SET
-    name = 'Camiseta Nike Editado',
-    price = 250,
-    category = 'Roupas'
-WHERE id = 'p01';
-
-SELECT * FROM users ORDER BY email ASC;
-
-SELECT * FROM products ORDER BY price ASC LIMIT 20;
-
-SELECT *
-FROM products
-WHERE
-    price >= 500
-    AND price <= 5500
-ORDER BY price ASC;
-
-DROP TABLE purchases;
-
-CREATE Table purchases (
-    id TEXT PRIMARY KEY UNIQUE NOT NULL,
-    total_price REAL NOT NULL,
-    paid INTEGER NOT NULL,
-    delivery_at TEXT,
-    buyer_id TEXT NOT NULL,
-    FOREIGN KEY (buyer_id) REFERENCES users(id)
-);
-
-INSERT INTO purchases (id, total_price, paid, buyer_id)
+INSERT INTO purchases (id, total_price, buyer_id)
 VALUES
-    ('pu001', 50.99, 0, 'u01'),
-    ('pu002', 41.30, 0, 'u01'),
-    ('pu003', 12.50, 0, 'u03'),
-    ('pu004', 10.99, 0, 'u03');
+    ('pu001', 50.99, 'u01'),
+    ('pu002', 41.30, 'u01'),
+    ('pu003', 12.50, 'u03'),
+    ('pu004', 10.99, 'u03');
 
 SELECT * FROM purchases;
 
-UPDATE purchases
-SET
-    delivery_at = DATETIME('now')
-WHERE id = 'pu001';
-
-SELECT * FROM purchases
-INNER JOIN users
-ON purchases.buyer_id = users.id
-WHERE users.id = 'u01';
-
-DROP TABLE purchases_products;
-
-CREATE TABLE purchases_products (
-    purchase_id TEXT NOT NULL,
-    product_id TEXT NOT NULL,
-    quantity INTEGER NOT NULL,
-    created_at TEXT DEFAULT( DATETIME()) NOT NULL
-);
-
 INSERT INTO purchases_products (purchase_id, product_id, quantity)
 VALUES
-    ('pu001', 'p03', 3),
-    ('pu002', 'p04', 2),
-    ('pu003', 'p05', 1);
+    ('pu001', 'p003', 3),
+    ('pu002', 'p004', 2),
+    ('pu003', 'p005', 1);
 
 SELECT * FROM purchases_products;
 

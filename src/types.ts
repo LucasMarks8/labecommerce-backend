@@ -3,18 +3,21 @@ export type TUser = {
     name: string,
     email: string,
     password: string
+    created_at: string
 }
 
 export type TProduct = {
-    id: string
-    name: string
-    price: number
-    category: string
+    id: string,
+    name: string,
+    price: number,
+    description: string,
+    imageUrl: string
 }
 
 export type TPurchase = {
-    userId: string,
-    productId: string,
-    quantity: number,
-    totalPrice: number
+    id: string,
+    buyer_id: string,
+    total_price: number,
+    created_at: string,
+    isPaid: boolean
 }
